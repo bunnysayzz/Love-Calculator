@@ -1,14 +1,17 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
-public class index extends JFrame implements ActionListener {
+public class Index extends JFrame implements ActionListener {
     JLabel maleNameLabel, femaleNameLabel, resultLabel;
     JTextField maleNameField, femaleNameField;
     JButton calculateButton;
     ImageIcon loveEmoji;
 
-    public index() {
+    private String maleName, femaleName; // Define instance variables
+
+    public Index() {
         setTitle("Love Calculator");
         setSize(400, 250);
         setLayout(new GridLayout(4, 2));
@@ -38,29 +41,33 @@ public class index extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == calculateButton) {
-            String maleName = maleNameField.getText();
-            String femaleName = femaleNameField.getText();
+            maleName = maleNameField.getText(); // Assign values to instance variables
+            femaleName = femaleNameField.getText();
             int lovePercentage = calculateLove(maleName, femaleName);
             resultLabel.setText("Love Percentage: " + lovePercentage + "%");
             resultLabel.setIcon(loveEmoji);
-            if (lovePercentage > 60) {
+            if (lovePercentage > 80) {
                 JOptionPane.showMessageDialog(null, "Congratulations! You got true love.");
             } else {
-                JOptionPane.showMessageDialog(null, "Soryy! You guys are not made for each other.");
+                JOptionPane.showMessageDialog(null, "Sorry! You guys are not made for each other.");
             }
         }
     }
-        }
-        String combinedNames = (maleName + femaleName).toLowerCase();
+
+    // Define the calculateLove method and put the extra brace at the end of it
+    private int calculateLove(String maleName, String femaleName) {
+        String combinedNames = (maleName.toLowerCase() + femaleName.toLowerCase());
         int loveScore = 0;
         for (int i = 0; i < combinedNames.length(); i++) {
-            loveScore += combinedNames.charAt(i);
+            char c = combinedNames.charAt(i);
+            if (c >= 'a' && c <= 'z') { // Check if character is within range of 'a' to 'z'
+                loveScore += c - 'a' + 1; // Add score corresponding to the character
+            }
         }
         return loveScore % 101;
     }
 
     public static void main(String[] args) {
-        index calculator = new index();
+        Index calculator = new Index();
     }
 }
-
